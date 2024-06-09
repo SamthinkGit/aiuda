@@ -1,2 +1,2 @@
-from .aiuda import Aiuda  # noqa
+from .tools import Aiuda  # noqa
 aiuda = Aiuda()

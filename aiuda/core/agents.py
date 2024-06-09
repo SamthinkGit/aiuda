@@ -13,14 +13,14 @@ class MinimalLangChainAgent:
             os.environ["OPENAI_API_KEY"] != ""
         ), "Please ensure to settle the 'OPENAI_API_KEY' in your enviroment before useing aiuda"
 
-        self.agent = ChatOpenAI()
+        self.agent = ChatOpenAI(temperature=0)
 
     def invoke(self, prompt: str, input) -> BaseMessage:
-        prompt = ChatPromptTemplate.from_messages(
+        template = ChatPromptTemplate.from_messages(
             [
                 ("system", prompt),
                 ("user", "{input}"),
             ]
         )
-        chain = prompt | self.agent
+        chain = template | self.agent
         return chain.invoke({"input": input})
