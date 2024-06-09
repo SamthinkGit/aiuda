@@ -30,7 +30,18 @@ from aiuda import aiuda
 my_dict = {'name': 'Alice', 'age': 30, 'city': 'Wonderland'}
 
 print(my_dict)  # meh
-aiuda.tree(prompt)  # better :D
+aiuda.tree(my_dict)  # better :D
+```
+```powershell
+>>> print(my_dict)
+{'name': 'Alice', 'age': 30, 'city': 'Wonderland'}
+
+>>> aiuda.tree(prompt)
+[aiuda][tree]
+(name: dict)
+├─.name: 'Alice'
+├─.age: 30
+└─.city: 'Wonderland'
 ```
 
 ## License 📄
