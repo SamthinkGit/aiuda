@@ -1,6 +1,7 @@
 from colorama import Fore
 from colorama import Style
 
+from aiuda.core.agent_tools import spaider_tool
 from aiuda.core.agents import MinimalLangChainAgent
 from aiuda.core.types import SupportsStr
 
@@ -43,3 +44,30 @@ class Aiuda:
         input = f"Target object: '''{obj}'''"
         result = self.agent.invoke(prompt, input)
         print(Fore.LIGHTBLUE_EX + result.content + Fore.RESET)
+
+    def spaider(
+        self,
+        obj: SupportsStr,
+        max_depth_level: int = 2,
+        max_steps: int = 10,
+        verbose: bool = True,
+    ) -> None:
+        Aiuda._log("spider")
+        message = (
+            "Describe the best as you can the following object:"
+            f"\n__str__: {str(obj)}"
+            f"\n__repr__: {repr(obj)}"
+            "\nTry to search about its properties and understand its main functionalities and behaviors."
+            "\nYou can access any property/attribute, but optimice your search to find the core functionalities"
+            f" under {max_steps} steps and without searching with a depth higher than {max_depth_level}. The "
+            "returned output should contain the explanation of the all the information found. Including known "
+            "properties, names, variables, or relevant information for the programmer."
+        )
+        result = self.agent.react(
+            input=message,
+            tools=[spaider_tool],
+            verbose=verbose,
+            max_steps=max_steps,
+            handle_parsing_errors=True,
+        )
+        print(Fore.LIGHTBLUE_EX + result + Fore.RESET)
