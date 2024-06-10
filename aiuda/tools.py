@@ -1,6 +1,7 @@
 from colorama import Fore
 from colorama import Style
 
+from aiuda.core.agent_tools import import_tool
 from aiuda.core.agent_tools import spaider_tool
 from aiuda.core.agents import MinimalLangChainAgent
 from aiuda.core.types import SupportsStr
@@ -51,21 +52,50 @@ class Aiuda:
         max_depth_level: int = 2,
         max_steps: int = 10,
         verbose: bool = True,
+        explore_private: bool = False,
     ) -> None:
         Aiuda._log("spider")
         message = (
             "Describe the best as you can the following object:"
             f"\n__str__: {str(obj)}"
             f"\n__repr__: {repr(obj)}"
+            f"\nClass name: {obj.__class__.__name__}"
+            f"\nModule name: {obj.__module__}"
+            f"\nBase classes: {obj.__class__.__bases__}"
+            f"\nClass dictionary: {obj.__class__.__dict__}"
+            f"\nObject's dictionary: {obj.__dict__}"
             "\nTry to search about its properties and understand its main functionalities and behaviors."
-            "\nYou can access any property/attribute, but optimice your search to find the core functionalities"
-            f" under {max_steps} steps and without searching with a depth higher than {max_depth_level}. The "
-            "returned output should contain the explanation of the all the information found. Including known "
-            "properties, names, variables, or relevant information for the programmer."
+            "\nYou can access any property/attribute, but optimize your search to find the core functionalities"
+            f" under {max_steps} steps and without searching with a depth higher than {max_depth_level}."
+            " The returned output should contain the explanation of all the information found, including:"
+            "\n1. Known properties and attributes."
+            "\n2. Methods and their functionalities."
+            "\n3. Common use cases and examples."
+            "\n4. Possible interactions with other objects."
+            "\n5. Performance considerations."
+            "\n6. Any associated events or triggers."
+            "\n7. Error handling and exceptions."
+            "\n8. Security implications."
+            "\n9. Compatibility with other systems or components."
+            "\nProvide detailed descriptions and examples wherever possible to aid in understanding."
+            "\nThe final explanation should be clear and thorough, ensuring the programmer deeply understands "
+            "the object analyzed."
+            "\nExample output:"
+            "\nThe requested `Agent` object has the following main functionalities:"
+            "\n1. `Agent.db`: Represents an `InMemoryTaskDB` object with methods for creating tasks, steps, "
+            "and artifacts."
+            "\n2. `Agent.setup_agent()`: Sets the agent's task and step handlers."
+            "\n3. `Agent.get_artifact_folder()`: Retrieves the artifact path for a specified task and artifact."
+            "\n4. `Agent.start()`: Initiates the agent server."
+            "\n5. `Agent.workspace`: A string attribute with various string manipulation methods available."
+            "\n..."
         )
+        if not explore_private:
+            message += "\nAvoid searching inside objects or functions that start with _ or are private"
+
         result = self.agent.react(
             input=message,
-            tools=[spaider_tool],
+            tools=[spaider_tool, import_tool],
             verbose=verbose,
             max_steps=max_steps,
             handle_parsing_errors=True,

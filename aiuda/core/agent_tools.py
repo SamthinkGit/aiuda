@@ -7,6 +7,17 @@ from langchain_core.pydantic_v1 import Field
 from aiuda.core.globals import Globals
 
 
+class ImportInputs(BaseModel):
+    """Inputs for using import tool."""
+
+    path: str = Field(
+        description=(
+            "The library/class to be imported. Cannot use relative paths."
+            " Example: mylib.class"
+        ),
+    )
+
+
 class SpaiderInputs(BaseModel):
     """Inputs for using spaider tool."""
 
@@ -14,6 +25,18 @@ class SpaiderInputs(BaseModel):
         description="The object/class to analyze in python. Must match the exact "
         "name/class of the variable. This will be evaluated with eval()"
     )
+
+
+def import_function(path: str) -> str:
+    try:
+        if "import" in path:
+            return "import tool failed. Invalid format check the instructions."
+        else:
+            exec(f"import {path}")
+
+        return f"Module {path} successfully imported"
+    except Exception:
+        return f"tool failed, cannot import module {path}. Exception: {traceback.format_exc()}"
 
 
 def spaider_function(object_name: str) -> str:
@@ -52,4 +75,12 @@ spaider_tool = StructuredTool.from_function(
     name="spaider",
     description="Obtain information about one object, such as its class, some annotations and docs. "
     "You must pass an exact name of the variable and ensure it is an object.",
+)
+
+
+import_tool = StructuredTool.from_function(
+    func=import_function,
+    name="import",
+    description="Imports a python library. Only need to pass the path for working. "
+    "Example: mylib.example. Invalid and Error Example: import(mylib)",
 )
