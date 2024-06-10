@@ -1,13 +1,25 @@
-import utils
-from langchain import hub
+from dataclasses import dataclass
+from typing import Hashable
 
 from aiuda import aiuda
 
 
-if __name__ == "__main__":
-    prompt = hub.pull("hwchase17/react")
-    utils.print_header("Original Object")
-    print(prompt + '\n')
+@dataclass
+class CatName:
+    name: str
+    alias: str
+    hash: Hashable
 
-    utils.print_header("aiuda.tree(obj)")
-    aiuda.tree(prompt)
+
+@dataclass
+class Cat:
+    name: CatName
+    age: int
+    properties: dict
+
+
+if __name__ == "__main__":
+
+    name = CatName("Horus", "miwmiw", hash("Horus"))
+    cat = Cat(name=name, age=6, properties={"type": "super_cat", "color": "orange"})
+    aiuda.tree(cat)
