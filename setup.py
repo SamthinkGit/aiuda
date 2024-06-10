@@ -1,11 +1,14 @@
 from setuptools import find_packages
 from setuptools import setup
 
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
+
 setup(
     name='aiuda',
     version='0.0.1',
     packages=find_packages(),
-    install_requires=[],
+    install_requires=requirements,
     author='Sebastian Mayorquín',
     author_email='sebastianmayorquin@gmail.com',
     description='AI tools for runtime python. Such as advanced pprinting, tree, formatting and some random utils.',
