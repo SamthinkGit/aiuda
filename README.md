@@ -21,6 +21,8 @@ You can install **aiuda** using pip:
 pip install aiuda
 ```
 
+> Note: You can install the last-last version (maybe unstable) by cloning and using pip install directly in the repo :D
+
 ## Usage 🛠️
 
 ```python
