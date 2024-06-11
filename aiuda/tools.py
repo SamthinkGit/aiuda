@@ -1,9 +1,12 @@
+from typing import Optional
+
 from colorama import Fore
 from colorama import Style
 
 from aiuda.core.agent_tools import import_tool
 from aiuda.core.agent_tools import spaider_tool
 from aiuda.core.agents import MinimalLangChainAgent
+from aiuda.core.globals import Globals
 from aiuda.core.types import SupportsStr
 
 
@@ -53,6 +56,8 @@ class Aiuda:
         max_steps: int = 10,
         verbose: bool = True,
         explore_private: bool = False,
+        /,
+        globals: Optional[dict] = None
     ) -> None:
         Aiuda._log("spider")
 
@@ -65,6 +70,9 @@ class Aiuda:
             ("Class dictionary", lambda o: o.__class__.__dict__),
             ("Objects dictionary", lambda o: o.__dict__),
         ]
+
+        if globals:
+            Globals.globals = globals
 
         result = ""
         parsed_attributes = dict()

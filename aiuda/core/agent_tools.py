@@ -54,7 +54,9 @@ def spaider_function(object_name: str) -> str:
     assert globals is not None, (
         "Globals must be defined before using spider, "
         "please import Globals from aiuda.core.globals and define its property to globals():"
-        "\n Globals.globals = globals()"
+        "\n Globals.globals = globals() or"
+        "ensure aiuda.spaider(obj, globals=globals()) in the aiuda call"
+
     )
 
     # We use this for if the LLM pass the object as "function(object_name)"
