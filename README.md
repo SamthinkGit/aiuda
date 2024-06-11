@@ -17,8 +17,9 @@
 
 </div>
 <div align="center">
-  <img src="https://github.com/SamthinkGit/aiuda/assets/92941012/2fbfe20a-9695-48e1-98fd-3fd419e55f81" alt="aiuda logo" width=700>
+  <img src="https://github.com/SamthinkGit/aiuda/assets/92941012/81b99c66-732e-45fd-bf27-1f3a841eca7b" alt="aiuda logo" width=700>
 </div>
+
 
 ## Features ✨
 
