@@ -55,15 +55,37 @@ class Aiuda:
         explore_private: bool = False,
     ) -> None:
         Aiuda._log("spider")
+
+        attributes = [
+            ("__str__", str),
+            ("__repr__", repr),
+            ("Class name", lambda o: o.__class__.__name__),
+            ("Module name", lambda o: o.__module__),
+            ("Base classes", lambda o: o.__class__.__bases__),
+            ("Class dictionary", lambda o: o.__class__.__dict__),
+            ("Objects dictionary", lambda o: o.__dict__),
+        ]
+
+        result = ""
+        parsed_attributes = dict()
+
+        for name, func in attributes:
+            value = "Not available"
+            try:
+                value = func(obj)
+            except AttributeError:
+                pass
+            parsed_attributes[name] = value
+
         message = (
             "Describe the best as you can the following object:"
-            f"\n__str__: {str(obj)}"
-            f"\n__repr__: {repr(obj)}"
-            f"\nClass name: {obj.__class__.__name__}"
-            f"\nModule name: {obj.__module__}"
-            f"\nBase classes: {obj.__class__.__bases__}"
-            f"\nClass dictionary: {obj.__class__.__dict__}"
-            f"\nObject's dictionary: {obj.__dict__}"
+            f"\n__str__: {parsed_attributes['__str__']}"
+            f"\n__repr__: {parsed_attributes['__repr__']}"
+            f"\nClass name: {parsed_attributes['Class name']}"
+            f"\nModule name: {parsed_attributes['Module name']}"
+            f"\nBase classes: {parsed_attributes['Base classes']}"
+            f"\nClass dictionary: {parsed_attributes['Class dictionary']}"
+            f"\nObject's dictionary: {parsed_attributes['Objects dictionary']}"
             "\nTry to search about its properties and understand its main functionalities and behaviors."
             "\nYou can access any property/attribute, but optimize your search to find the core functionalities"
             f" under {max_steps} steps and without searching with a depth higher than {max_depth_level}."

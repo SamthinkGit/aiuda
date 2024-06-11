@@ -5,6 +5,7 @@ from langchain_core.pydantic_v1 import BaseModel
 from langchain_core.pydantic_v1 import Field
 
 from aiuda.core.globals import Globals
+from aiuda.core.parsers import extract_keyword_from_function
 
 
 class ImportInputs(BaseModel):
@@ -29,8 +30,13 @@ class SpaiderInputs(BaseModel):
 
 def import_function(path: str) -> str:
     try:
-        if "import" in path:
-            return "import tool failed. Invalid format check the instructions."
+
+        if parsed_path := extract_keyword_from_function(path):
+            exec(f"import {parsed_path}")
+
+        elif path.startswith("import"):
+            exec(path)
+
         else:
             exec(f"import {path}")
 
@@ -47,6 +53,10 @@ def spaider_function(object_name: str) -> str:
         "please import Globals from aiuda.core.globals and define its property to globals():"
         "\n Globals.globals = globals()"
     )
+
+    # We use this for if the LLM pass the object as "function(object_name)"
+    if parsed_obj := extract_keyword_from_function(object_name):
+        object_name = parsed_obj
 
     try:
         obj = eval(object_name, globals)
@@ -74,7 +84,7 @@ spaider_tool = StructuredTool.from_function(
     func=spaider_function,
     name="spaider",
     description="Obtain information about one object, such as its class, some annotations and docs. "
-    "You must pass an exact name of the variable and ensure it is an object.",
+    "You must pass an exact name of the variable or class and ensure it is an object.",
 )
 
 
