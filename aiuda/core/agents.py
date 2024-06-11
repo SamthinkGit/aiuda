@@ -52,7 +52,7 @@ class MinimalLangChainAgent:
 
         react_agent = create_react_agent(self.agent, tools, self.prompt_db["react"])
         agent_executor = AgentExecutor(
-            agent=react_agent,
+            agent=react_agent,  # type: ignore
             tools=tools,
             verbose=verbose,
             handle_parsing_errors=handle_parsing_errors,

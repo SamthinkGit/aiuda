@@ -1,2 +1,2 @@
 class Globals:
-    globals: dict = None
+    globals: dict | None = None

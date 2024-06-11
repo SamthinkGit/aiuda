@@ -15,7 +15,8 @@ class Aiuda:
     def __init__(self) -> None:
         self.agent = MinimalLangChainAgent()
 
-    def _log(keyword: str) -> None:
+    @classmethod
+    def _log(cls, keyword: str) -> None:
         print(
             Fore.LIGHTGREEN_EX
             + Style.BRIGHT
@@ -47,7 +48,7 @@ class Aiuda:
         )
         input = f"Target object: '''{obj}'''"
         result = self.agent.invoke(prompt, input)
-        print(Fore.LIGHTBLUE_EX + result.content + Fore.RESET)
+        print(Fore.LIGHTBLUE_EX + str(result.content) + Fore.RESET)
 
     def spaider(
         self,
@@ -80,7 +81,7 @@ class Aiuda:
         for name, func in attributes:
             value = "Not available"
             try:
-                value = func(obj)
+                value = func(obj)  # type: ignore
             except AttributeError:
                 pass
             parsed_attributes[name] = value
@@ -125,7 +126,7 @@ class Aiuda:
 
         result = self.agent.react(
             input=message,
-            tools=[spaider_tool, import_tool],
+            tools=[spaider_tool, import_tool],  # type: ignore
             verbose=verbose,
             max_steps=max_steps,
             handle_parsing_errors=True,
