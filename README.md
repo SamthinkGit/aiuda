@@ -3,6 +3,14 @@
   <img src="https://github.com/SamthinkGit/aiuda/assets/92941012/f11c765b-b405-4184-b152-b2275dbb49c7" alt="aiuda logo" width=700>
 </div>
 
+<div align="center">
+  <h3>
+    <a href="https://medium.com/@sebastianmayorquin_74267/943bde3d196a" style="color:blue; text-decoration:underline;">
+      🛠️ Quickstart Guide
+    </a>
+  </h3>
+</div>
+
 # Aiuda: AI-Powered Tools for Python Development
 
 **aiuda** is a Python library that leverages AI to enhance your programming workflow. Inspired by tools like [icecream](https://github.com/gruns/icecream) and PDB, Aiuda provides advanced pretty-printing, formatting, and various utility functions, all powered by AI via [LangChain](https://www.langchain.com/). Whether you need to print objects more effectively, get AI assistance in debugging, or analyze variables, Aiuda has you covered.
