@@ -29,16 +29,19 @@ class SpaiderInputs(BaseModel):
 
 
 def import_function(path: str) -> str:
+    glob = Globals.globals
     try:
 
         if parsed_path := extract_keyword_from_function(path):
-            exec(f"import {parsed_path}")
+            exec(f"import {parsed_path}", glob)
+            exec(f"from {parsed_path} import *", glob)
 
         elif path.startswith("import"):
-            exec(path)
+            exec(path, glob)
 
         else:
-            exec(f"import {path}")
+            exec(f"import {path}", glob)
+            exec(f"from {path} import *", glob)
 
         return f"Module {path} successfully imported"
     except Exception:
