@@ -58,7 +58,7 @@ class Aiuda:
         verbose: bool = True,
         explore_private: bool = False,
         /,
-        globals: Optional[dict] = None
+        globals: Optional[dict] = None,
     ) -> None:
         Aiuda._log("spider")
 
